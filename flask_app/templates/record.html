@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Stress Detector</title>
+    <link rel="icon" href="{{ url_for('static', filename = 'img/psy_icon.jpg') }}">   
+
+
+<!-- Bring in our bootstrap stylesheet -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/headers/">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">    
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .b-example-divider {
+        width: 100%;
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
+
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .btn-bd-primary {
+        --bd-violet-bg: #712cf9;
+        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+        --bs-btn-font-weight: 600;
+        --bs-btn-color: var(--bs-white);
+        --bs-btn-bg: var(--bd-violet-bg);
+        --bs-btn-border-color: var(--bd-violet-bg);
+        --bs-btn-hover-color: var(--bs-white);
+        --bs-btn-hover-bg: #6528e0;
+        --bs-btn-hover-border-color: #6528e0;
+        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+        --bs-btn-active-color: var(--bs-btn-hover-color);
+        --bs-btn-active-bg: #5a23c8;
+        --bs-btn-active-border-color: #5a23c8;
+      }
+
+      .bd-mode-toggle {
+        z-index: 1500;
+      }
+
+      .bd-mode-toggle .dropdown-menu .active .bi {
+        display: block !important;
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="headers.css" rel="stylesheet">
+  </head>
+  <body>
+    <main>
+      <h1 class="visually-hidden">Headers examples</h1>
+    
+      <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+          <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <img src="/static/img/brain-3-svgrepo-com.svg" alt="" class="bi me-2" width="40" height="32">
+            <span class="fs-4">Tuyara - Stress Detection Interface</span>
+          </a>
+    
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="https://www.mohfw.gov.in/" class="nav-link">Mental Wellbeing</a></li>
+            <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
+            <li class="nav-item"><a href="https://main.mohfw.gov.in/sites/default/files/Mental%20Healthcare%20Act%2C%202017_0.pdf" class="nav-link">MHCA</a></li>
+          </ul>
+        </header>
+      </div>
+    
+      <div class="b-example-divider"></div>
+    
+ 
+        <div class="px-4 py-5 my-5 text-center" style="background-image: linear-gradient(to right, rgb(144, 210, 109), rgb(255, 152, 0));">
+          <img class="d-block mx-auto mb-4" src="/static/img/audio-playlist-svgrepo-com.svg" alt="" width="72" height="57">
+          <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Upload audio files here to detect stress through audio information and gain insights into your mental well-being. Take charge of your health today!</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+               <form action="/emotion" method = "post" enctype="multipart/form-data">
+                <input type="hidden" name="form-name" value="audio">
+                <input type="file" accept="audio/*" capture id="recorder" name="audio">
+                  <audio id="player" controls></audio>
+                  <script>
+                    const recorder = document.getElementById('recorder');
+                    const player = document.getElementById('player');
+      
+                    recorder.addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        const url = URL.createObjectURL(file);
+                        // Do something with the audio file.
+                        player.src = url;
+                    });
+                  </script>
+      
+                <br><br><br>
+                <input type = "submit" value="Submit">
+              </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="container border shadow-lg">
+        <br>
+        <br>
+        <br>
+            {% if name %}
+              {% if name.audio == "angry" %}
+              <h2 style="text-align:center">Stressed</h2>
+              <br>
+              <br><div style="width: 50%; border: 5px solid;
+              margin: auto;
+              width: 50%;
+              padding: 10px;">
+                <h3 style="text-align:center">We feel like this audio has {{ name.audio }} emotion to it.</h3>
+                <p>Spend time in nature: Go for a walk outdoors or spend time in a natural environment to reduce stress and boost your mood.</p>
+                  <p>Practice gratitude: Take a moment to focus on things you're grateful for to shift your perspective and reduce stress.</p>
+                <p>Limit caffeine and alcohol: Reduce consumption of stimulants like caffeine and alcohol, which can increase feelings of stress and anxiety.</p>
+                </div>
+              {% endif %}
+            {% endif %}
+          {% if name %}
+            {% if name.audio == "disgust" %}
+            <h2 style="text-align:center">Stressed</h2>
+            <br>
+            <br><div style="width: 50%; border: 5px solid;
+            margin: auto;
+            width: 50%;
+            padding: 10px;">
+              <h3 style="text-align:center">We feel like this audio has {{ name.audio }} emotion to it.</h3>
+              <p>Get enough sleep: Prioritize getting enough sleep each night to help your body and mind recover from daily stressors.</p>
+              <p>Laugh: Watch a funny movie or spend time with loved ones to enjoy a good laugh, which can help reduce stress hormones.</p>
+              <p>Visualization: Close your eyes and imagine yourself in a peaceful, relaxing place to help calm your mind and body.</p>
+              </div>
+            {% endif %}
+          {% endif %}
+          {% if name %}
+            {% if name.audio == "neutral" %}
+              
+            <h2 style="text-align:center">Not Stressed</h2>
+            <br>
+            <br><div style="width: 50%; border: 5px solid;
+            margin: auto;
+            width: 50%;
+            padding: 10px;">
+              <h3 style="text-align:center">We feel like this audio has {{ name.audio }} emotion to it.</h3>
+              <p>Your resilience in the face of challenges is truly admirable and serves as a beacon of hope for others.</p>
+              </div>
+            {% endif %}
+          {% endif %}
+          {% if name %}
+            {% if name.audio == "surprised" %}
+              
+            <h2 style="text-align:center">Stressed</h2>
+            <br>
+            <br><div style="width: 50%; border: 5px solid;
+            margin: auto;
+            width: 50%;
+            padding: 10px;">
+              <h3 style="text-align:center">We feel like this audio has {{ name.audio }} emotion to it.</h3>
+              <p>Massage: Give yourself a gentle self-massage or ask a partner or friend for a massage to release tension and promote relaxation.</p>
+              <p>Herbal tea: Drink a cup of herbal tea like chamomile or lavender to help calm your nerves and promote relaxation.</p>
+              <p>Set boundaries: Learn to say no to commitments or activities that cause you unnecessary stress and prioritize self-care.</p>
+              </div>
+            {% endif %}
+          {% endif %}
+          {% if name %}
+            {% if name.audio == "happy" %}
+              
+            <h2 style="text-align:center">Not Stressed</h2>
+            <br>
+            <br><div style="width: 50%; border: 5px solid;
+            margin: auto;
+            width: 50%;
+            padding: 10px;">
+              <h3 style="text-align:center">We feel like this audio has {{ name.audio }} emotion to it.</h3>
+              <p>Your optimism in the face of uncertainty is a powerful reminder that with the right mindset, anything is possible.</p>
+              </div>
+            {% endif %}
+          {% endif %}
+          {% if name %}
+            {% if name.audio == "fearful" %}
+              
+            <h2 style="text-align:center">Stressed</h2>
+            <br>
+            <br><div style="width: 50%; border: 5px solid;
+            margin: auto;
+            width: 50%;
+            padding: 10px;">
+              <h3 style="text-align:center">We feel like this audio has {{ name.audio }} emotion to it.</h3>
+              <p>Practice self-care: Engage in activities that you enjoy and make you feel good, whether it's reading, painting, or taking a long bath.</p>
+              <p>Seek support: Talk to a friend, family member, or therapist about your feelings to gain perspective and support.</p>
+              <p>Journaling: Write down your thoughts and feelings in a journal to help process emotions and reduce stress.</p>
+              </div>
+            {% endif %}
+          {% endif %}
+          {% if name %}
+            {% if name.audio == "sad" %}
+             
+            <h2 style="text-align:center">Stressed</h2>
+            <br>
+            <br><div style="width: 50%; border: 5px solid;
+            margin: auto;
+            width: 50%;
+            padding: 10px;">
+              <h3 style="text-align:center">We feel like this audio has {{ name.audio }} emotion to it.</h3>
+              <p>Eat well-balanced meals: Fuel your body with nutritious foods to support overall well-being and reduce stress levels.</p>
+              <p>Seek professional help: If stress becomes overwhelming or persistent, consider seeking help from a mental health professional for support and guidance.</p>
+              <p>Deep breathing exercises: Practice deep, slow breathing to help calm your mind and body.</p>
+              </div>
+            {% endif %}
+          {% endif %}
+
+      <br>
+      <br>
+      <br>
+      </div>
+    </main>
+    <br>
+    <br>
+    <br>
+      <p style="text-align:center">© 2024 Tuyara</p>
+      
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</body>
+</html>
