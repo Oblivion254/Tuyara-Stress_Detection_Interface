@@ -149,3 +149,5 @@ dmypy.json
 /voice_detection/TESS Toronto emotional speech set data/
 
 /flask_app/.DS_Store
+
+/facial_detection/.git
