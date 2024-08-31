@@ -137,7 +137,7 @@ dmypy.json
 .pyre/
 
 # ignoring image dataset
-facial_detection/images/
+/facial_detection/images/
 
 # ignoring text dataset
 /text_detection/Sentiment_Analysis_Dataset.csv
